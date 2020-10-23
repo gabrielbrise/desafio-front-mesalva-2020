@@ -8,9 +8,11 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
+import { Helmet } from "react-helmet"
 
 import Header from "./header"
 import "./layout.css"
+import "./index.css"
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -25,18 +27,26 @@ const Layout = ({ children }) => {
 
   return (
     <>
+      <Helmet>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Raleway&display=swap"
+          rel="stylesheet"
+        />
+      </Helmet>
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
       <div
         style={{
           margin: `0 auto`,
           maxWidth: 960,
-          padding: `0 1.0875rem 1.45rem`,
+          padding: `100px 1.0875rem 1.45rem`,
         }}
       >
         <main>{children}</main>
-        <footer style={{
-          marginTop: `2rem`
-        }}>
+        <footer
+          style={{
+            marginTop: `2rem`,
+          }}
+        >
           © {new Date().getFullYear()}, Built with
           {` `}
           <a href="https://www.gatsbyjs.com">Gatsby</a>
