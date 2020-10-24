@@ -38,14 +38,9 @@ const Header = ({ siteTitle }) => (
           <HeaderTitle className="OpenSans">
             NASA PICTURE OF THE DAY
           </HeaderTitle>
-          <input
-            type="date"
-            style={{
-              borderRadius: 90,
-              padding: "4px 12px",
-              fontSize: 18,
-            }}
-          />
+          <form>
+            <DateInput type="date" id="d3234gf2" name="date" />
+          </form>
         </Link>
       </h1>
     </div>
@@ -62,9 +57,33 @@ Header.defaultProps = {
 
 export default Header
 
+const DateInput = styled.input`
+  opacity: 0.4;
+  border-radius: 90px;
+  padding: 4px 12px;
+  font-size: 18px;
+  background-color: #0b3d91;
+  border: 1px solid white;
+  color: white;
+  :focus {
+    outline: none;
+  }
+
+  ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+
+    cursor: pointer;
+  }
+  :hover,
+  :active {
+    opacity: 0.8;
+  }
+`
+
 const HeaderTitle = styled.span`
   text-transform: uppercase;
   opacity: 0.5;
+  font-size: 24px;
   font-weight: 400;
   @media (max-width: 959px) {
     display: none;

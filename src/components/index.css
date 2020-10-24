@@ -1,3 +1,22 @@
 .OpenSans {
   font-family: "Open Sans", sans-serif;
 }
+h1 {
+  font-family: "Open Sans", sans-serif;
+}
+.flex {
+  display: flex;
+}
+.justify-content-center {
+  justify-content: center;
+}
+.align-items-center {
+  align-items: center;
+}
+.mx-2 {
+  margin-left: 12px;
+  margin-right: 12px;
+}
+.text-align-center {
+  text-align: center;
+}

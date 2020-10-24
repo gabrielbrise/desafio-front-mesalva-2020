@@ -17,13 +17,13 @@ export const fetchNASADayImage = async date => {
 }
 
 export const fetchNASADateRangeImages = async (
-  startDate = null,
-  dayRange = 30
+  startDate = Date.now(),
+  dayRange = 21
 ) => {
   const daysList = Array(dayRange)
     .fill(undefined)
     .map((_, index) => {
-      const day = new Date()
+      const day = new Date(startDate)
       day.setDate(day.getDate() - index)
       console.log(day)
       return formatDate(day)
