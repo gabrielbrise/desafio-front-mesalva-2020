@@ -1,10 +1,7 @@
 import { formatDate } from "../helpers/Date"
 
-var myHeaders = new Headers()
-
 var myInit = {
   method: "GET",
-  headers: myHeaders,
   mode: "cors",
   cache: "default",
 }
@@ -17,7 +14,7 @@ export const fetchNASADayImage = async date => {
 }
 
 export const fetchNASADateRangeImages = async (
-  startDate = Date.now(),
+  startDate = Date.now() - 86400000,
   dayRange = 21
 ) => {
   const daysList = Array(dayRange)
@@ -25,7 +22,6 @@ export const fetchNASADateRangeImages = async (
     .map((_, index) => {
       const day = new Date(startDate)
       day.setDate(day.getDate() - index)
-      console.log(day)
       return formatDate(day)
     })
   return Promise.all(daysList.map(date => fetchNASADayImage(date)))

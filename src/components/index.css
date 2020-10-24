@@ -17,6 +17,13 @@ h1 {
   margin-left: 12px;
   margin-right: 12px;
 }
+.my-2 {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
 .text-align-center {
   text-align: center;
+}
+button:focus {
+  outline: none;
 }
