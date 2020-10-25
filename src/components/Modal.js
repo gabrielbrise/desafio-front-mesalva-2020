@@ -1,6 +1,7 @@
 import React, { useContext } from "react"
 import styled from "styled-components"
 import Context from "../contexts/ContextAndProvider"
+import { isMobileResolution } from "../helpers/Screen"
 
 const Modal = () => {
   const { open, closeModal, modalData } = useContext(Context)
@@ -21,11 +22,17 @@ const Modal = () => {
     >
       <CloseButton onClick={closeModal} />
       <ModalContent>
-        <div style={{ margin: 24, maxWidth: 600 }}>
-          <p>{title}</p>
+        <div className="TextContent" style={{ margin: 24, maxWidth: 600 }}>
+          <p className="OpenSans" style={{ fontSize: 24, fontWeight: 700 }}>
+            {date}
+          </p>
+          <p className="OpenSans" style={{ fontSize: 24 }}>
+            {title}
+          </p>
           <p>{description}</p>
-          <p>{date}</p>
+
           <p>{copyright}</p>
+
           <button
             onClick={closeModal}
             style={{
@@ -64,11 +71,24 @@ export default Modal
 
 const ModalContent = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10vh;
+  flex-direction: column-reverse;
+
+  height: 100vh;
   overflow: auto; /* Enable scroll if needed */
+
+  .TextContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
   @media (min-width: 960px) {
+    padding: 10vh;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .TextContent {
+      padding-right: 32px;
+    }
     .FullPicture {
       max-width: 50vw;
     }

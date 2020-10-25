@@ -40,6 +40,7 @@ const ShowMoreButton = styled.button`
   padding: 4px 24px;
   text-transform: uppercase;
   transition: all 0.2s ease;
+  margin-right: 32px;
 
   cursor: pointer;
   :hover {

@@ -15,6 +15,7 @@ const CardsLayout = () => {
   const picsPerSide = picsPerRow * 2 - 3
 
   const sideCards = pictures.slice(1, picsPerSide)
+  console.log("sdsd", picsPerRow, picsPerSide)
 
   const restCards = pictures.slice(picsPerSide)
 
@@ -22,11 +23,21 @@ const CardsLayout = () => {
     if (isMobileResolution()) return <CardsList cards={pictures} />
     return (
       <div className="block justify-content-center align-items-center text-center">
-        <div className="flex">
+        <div className="flex justify-content-center  text-center">
           <CardsList cards={todayCard} />
-          <CardsList cards={sideCards} />
+          <CardsList
+            cards={sideCards}
+            style={{
+              maxWidth: (picsPerRow - 2) * imageSize + (picsPerRow - 2) * 24,
+            }}
+          />
         </div>
-        <CardsList cards={restCards} />
+        <div className="flex justify-content-center align-items-center">
+          <CardsList
+            cards={restCards}
+            style={{ maxWidth: picsPerRow * imageSize + (picsPerRow - 2) * 48 }}
+          />
+        </div>
       </div>
     )
   }
@@ -35,11 +46,11 @@ const CardsLayout = () => {
 
 export default CardsLayout
 
-const CardsList = ({ cards }) => {
+const CardsList = ({ cards, style }) => {
   const { imageSize, openModal, numberOfPictures } = useContext(Context)
 
   return (
-    <NASAPictures>
+    <NASAPictures style={style}>
       {cards.map((media, key) => {
         const image =
           media.media_type === "video"

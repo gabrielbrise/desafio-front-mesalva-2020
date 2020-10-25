@@ -32,7 +32,7 @@ const Header = ({ siteTitle }) => {
             alignItems: "center",
           }}
         >
-          <span style={{ display: "inline", lineHeight: 0 }}>
+          <span style={{ display: "inline", lineHeight: 0, paddingLeft: 12 }}>
             <img src="/icons/NASA_Logo.svg" width={90} />
           </span>
           <HeaderTitle className="OpenSans">PICTURE OF THE DAY</HeaderTitle>
@@ -47,7 +47,7 @@ const Header = ({ siteTitle }) => {
           >
             <DateInput
               type="date"
-              id="d3234gf2"
+              id="date-input"
               name="date"
               defaultValue={formatDate(new Date(Date.now()))}
               min="1998-01-01"
@@ -113,6 +113,7 @@ const DateForm = styled.form`
 const DateInput = styled.input`
   border-radius: 4px;
   width: 100%;
+  height: 34px;
   padding: 2px 12px;
   font-size: 16px;
   background-color: #0b3d91;
