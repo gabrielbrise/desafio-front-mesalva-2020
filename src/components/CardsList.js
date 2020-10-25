@@ -1,39 +1,70 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { formatDate } from "../helpers/Date"
 import Context from "../contexts/ContextAndProvider"
 import styled from "styled-components"
+import { isMobileResolution } from "../helpers/Screen"
 
-const CardsList = () => {
-  const { pictures, imageSize, openModal } = useContext(Context)
+const CardsLayout = () => {
+  const { pictures, imageSize, openModal, numberOfPictures } = useContext(
+    Context
+  )
+
+  const todayCard = [{ ...pictures[0], bigCard: true }]
+
+  const picsPerRow = numberOfPictures / 2
+  const picsPerSide = picsPerRow * 2 - 3
+
+  const sideCards = pictures.slice(1, picsPerSide)
+
+  const restCards = pictures.slice(picsPerSide)
+
+  if (pictures.length > 0) {
+    if (isMobileResolution()) return <CardsList cards={pictures} />
+    return (
+      <div className="block justify-content-center align-items-center text-center">
+        <div className="flex">
+          <CardsList cards={todayCard} />
+          <CardsList cards={sideCards} />
+        </div>
+        <CardsList cards={restCards} />
+      </div>
+    )
+  }
+  return null
+}
+
+export default CardsLayout
+
+const CardsList = ({ cards }) => {
+  const { imageSize, openModal, numberOfPictures } = useContext(Context)
 
   return (
     <NASAPictures>
-      {pictures.map((media, key) => {
+      {cards.map((media, key) => {
         const image =
           media.media_type === "video"
-            ? `https://img.youtube.com/vi/${media.url.replace(
-                /^(.*embed\/)(.*)([\?.*]?)$/,
-                "$2"
-              )}/0.jpg`
+            ? `https://img.youtube.com/vi/${media.url
+                .replace(/\?rel=0/, "")
+                .replace(/^(.*embed\/)(.*)$/, "$2")}/0.jpg`
             : media.url
         return (
           <div
+            className={media.bigCard ? "BigCard" : "Card"}
             id={`NASA-IMAGE-${media.date}`}
             key={`NASA-IMAGE-${media.date}`}
             style={{
               overflow: "hidden",
-              width: key === 0 ? imageSize * 2 + 50 : imageSize,
-              height: key === 0 ? imageSize * 2 + 50 : imageSize,
+              "--big-card-size": `${imageSize * 2 + 24}px`,
+              "--card-size": `${imageSize}px`,
               display: "inline-block",
               margin: 12,
               padding: 0,
+              gridArea: key === 0 ? "today" : `previous-${key}`,
             }}
           >
             <NASAImage
-              onClick={() => openModal(key)}
+              onClick={() => openModal(media)}
               style={{
-                width: key === 0 ? imageSize * 2 + 50 : imageSize,
-                height: key === 0 ? imageSize * 2 + 50 : imageSize,
                 backgroundImage: `url(${image})`,
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
@@ -48,8 +79,6 @@ const CardsList = () => {
     </NASAPictures>
   )
 }
-
-export default CardsList
 
 const NASAImage = styled.div`
   transform: scale(1.4);
@@ -87,4 +116,57 @@ const NASAPictures = styled.div`
   line-height: 100vh;
   display: flex;
   flex-flow: wrap;
+  .BigCard {
+    width: var(--card-size);
+    height: var(--card-size);
+    > * {
+      width: var(--card-size);
+      height: var(--card-size);
+    }
+    @media (min-width: 960px) {
+      width: var(--big-card-size);
+      height: var(--big-card-size);
+      > * {
+        width: var(--big-card-size);
+        height: var(--big-card-size);
+      }
+    }
+  }
+  .Card {
+    width: var(--card-size);
+    height: var(--card-size);
+    > * {
+      width: var(--card-size);
+      height: var(--card-size);
+    }
+  }
 `
+
+// const [gridString, setGridString] = useState("")
+
+//   useEffect(() => {
+//     if (pictures.length !== 0 && numberOfPictures !== 0) {
+//       console.log("dh129d8h2389dh")
+//       const picPerRow = numberOfPictures / 2
+//       const totalPics = pictures.length
+//       const numberOfRows = totalPics - 3 / picPerRow
+//       console.log(picPerRow, totalPics, numberOfRows)
+//       const array = Array(numberOfRows)
+//         .fill(Array(picPerRow).fill(""))
+//         .map(
+//           (row, rowIndex) =>
+//             `'${row.map((column, columnIndex) => {
+//               if (
+//                 (rowIndex === 0 || rowIndex === 1) &&
+//                 (columnIndex === 0 || columnIndex === 1)
+//               )
+//                 return "today"
+//               return `previous-${columnIndex + 1 * rowIndex + 1 - 3}`
+//             })}'`
+//         )
+//         .join("\n")
+//       setGridString(array)
+
+//       console.log(array)
+//     }
+//   }, [pictures.length])

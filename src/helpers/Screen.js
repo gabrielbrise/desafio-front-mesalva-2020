@@ -17,3 +17,5 @@ export function getHeight() {
     document.documentElement.clientHeight
   )
 }
+
+export const isMobileResolution = (resolution = 960) => getWidth() < resolution

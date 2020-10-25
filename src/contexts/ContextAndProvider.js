@@ -24,7 +24,6 @@ const [Context, Provider] = createContextAndProvider(() => {
       getImageSizeAndNumberOfPictures().numberOfPictures - 3
     )
       .then(list => {
-        console.log(list)
         setPictures(list)
         setPages(pages.concat(list))
         setLoading(false)
@@ -41,10 +40,14 @@ const [Context, Provider] = createContextAndProvider(() => {
     })
 
   const getImageSizeAndNumberOfPictures = () => {
-    console.log("here")
     const screenHeight = getHeight()
     const screenWidth = getWidth()
-    if (screenHeight < 800) return 280
+    if (screenHeight < 800) {
+      setImageSize(screenWidth - 48)
+      setNumberOfPictures(7)
+      return { imageSize: screenWidth - 48, numberOfPictures: 7 }
+    }
+
     const imageSize = (screenHeight - 80 - 24 * 3) / 2
     const picturesPerRow = Math.floor(screenWidth / imageSize)
     const numberOfPictures = picturesPerRow * 2
@@ -57,25 +60,29 @@ const [Context, Provider] = createContextAndProvider(() => {
     const lastDate = pictures[pictures.length - 1].date
     const nextDay = new Date(lastDate)
     nextDay.setDate(nextDay.getDate() - 1)
-    const scrollTopPosition = document.documentElement.scrollTop
 
     fetchNASADateRangeImages(nextDay.valueOf(), numberOfPictures).then(
       newPictures => {
         setPictures([...pictures, ...newPictures])
         setPages(pages.concat(newPictures))
-        window.scrollTo({
-          top:
-            document.getElementById(`NASA-IMAGE-${newPictures[0].date}`)
-              .offsetTop + 200,
-          behavior: "smooth",
-        })
+        console.log(newPictures)
+        setTimeout(
+          window.scrollTo({
+            top:
+              document.getElementById(`NASA-IMAGE-${lastDate}`).offsetTop +
+              imageSize +
+              72,
+            behavior: "smooth",
+          }),
+          400
+        )
       }
     )
   }
 
-  const openModal = key => {
+  const openModal = content => {
     setOpen(true)
-    setModalData(pictures[key])
+    setModalData(content)
     document.body.style.maxHeight = "100vh"
     document.body.style.overflowY = "hidden"
   }

@@ -14,7 +14,11 @@ const Modal = () => {
     media_type: type,
   } = modalData
   return (
-    <ModalContainer style={{ display: open ? "block" : "none" }}>
+    <ModalContainer
+      style={{
+        transform: open ? "translateY(0)" : "translateY(100%)",
+      }}
+    >
       <CloseButton onClick={closeModal} />
       <ModalContent>
         <div style={{ margin: 24, maxWidth: 600 }}>
@@ -41,12 +45,12 @@ const Modal = () => {
             width="100%"
             height="640px"
             src={url}
-            frameborder="0"
+            frameBorder="0"
           />
         ) : (
           <img
             className="FullPicture"
-            src={image}
+            src={url}
             alt={title}
             style={{ maxHeight: "80vh" }}
           />
@@ -79,7 +83,8 @@ const ModalContainer = styled.div`
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.8); /* Black w/ opacity */
+  background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+  transition: all 0.3s ease;
 `
 
 const CloseButton = styled.span`
